@@ -1,22 +1,17 @@
-import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
-import Spinner from "./Spinner";
+import Spinner from "./Spinner"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import React from "react"
 
-test("Spinner renders correctly", () => {
-  render(<Spinner />);
-});
-
-test('Spinner renders correctly when "on" is true', async () => {
-  render(<Spinner on={true} />);
-
-  await waitFor(() => {
-    const spinnerElement = screen.queryByText(/Please wait.../i);
-    expect(spinnerElement).toBeInTheDocument;
-  });
-});
-
-test('Spinner does not render when "on" is false', () => {
-  render(<Spinner on={false} />);
-  const spinnerElement = screen.queryByText(/Please wait.../i);
-  expect(spinnerElement).toBeNull();
-});
+//$ Import the Spinner component into this file and test
+// that it renders what it should for the different props it can take.
+test('spinner displays correctly', () => {
+  let on = true
+  render(<Spinner on={on} />)
+  expect(screen.queryByText('Please wait...')).toBeInTheDocument()
+})
+test('spinner displays incorrectly', () => {
+  let on = true
+  render(<Spinner on={!on} />)
+  expect(screen.queryByText('Please wait...')).not.toBeInTheDocument()
+})

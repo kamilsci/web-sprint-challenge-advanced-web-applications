@@ -1,34 +1,40 @@
 import React, { useState } from 'react'
 import PT from 'prop-types'
 
+
 const initialFormValues = {
   username: '',
   password: '',
 }
-
-export default function LoginForm({ login }) { 
-  const [values, setValues] = useState(initialFormValues);
-  const [error, setError] = useState('');
-
+export default function LoginForm(props) {
+  const [values, setValues] = useState(initialFormValues)
+  
+  // ✨ where are my props? Destructure them here
+  
   const onChange = evt => {
     const { id, value } = evt.target
     setValues({ ...values, [id]: value })
   }
-
+  
   const onSubmit = evt => {
-    evt.preventDefault();
-    setError('');
-    login(values); 
+    evt.preventDefault()
+    props.login(values)
+    // ✨ implement
   }
 
   const isDisabled = () => {
-    return !(values.username.trim().length >= 3 && values.password.trim().length >= 8);
+    let user = values.username
+    let pass = values.password
+    if ((user.trim().length >= 3) && (pass.trim().length >= 8)) {
+      return false
+    } else {
+      return true
+    }
   }
 
   return (
     <form id="loginForm" onSubmit={onSubmit}>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <input
         maxLength={20}
         value={values.username}
@@ -42,7 +48,6 @@ export default function LoginForm({ login }) {
         onChange={onChange}
         placeholder="Enter password"
         id="password"
-        type="password"
       />
       <button disabled={isDisabled()} id="submitCredentials">Submit credentials</button>
     </form>
